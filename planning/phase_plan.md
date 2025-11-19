@@ -1,0 +1,7 @@
+- Phase 0 - Foundations & Project Preparations
+- Phase 1 - AI Model & Dataset
+- Phase 2 - Local Inference & Software Integration
+- Phase 3 - Dashboard & UX
+- Phase 4 - Hardware Assembly & Power Design
+- Phase 5 - Robot Integrations & Field Loop
+- Phase 6 - Evaluation, Polishing & deliverables

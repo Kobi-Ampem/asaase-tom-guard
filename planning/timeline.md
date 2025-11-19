@@ -1,0 +1,6 @@
+# High-level Timeline (example)
+- Week 0: Phase 0 (setup)
+- Weeks 1-2: Phase 1 (data & model)
+- Weeks 3-4: Phase 2 (inference & API)
+- Weeks 5-6: Phase 3 (dashboard) & Phase 4 (hardware)
+- Weeks 7-8: Phase 5 (integration & testing)
