@@ -1,0 +1,6 @@
+dataset_leaf/
+dataset_fruit/
+dataset_old_backup/
+*.zip
+venv/
+runs/

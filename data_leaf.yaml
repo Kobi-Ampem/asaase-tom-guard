@@ -1,0 +1,24 @@
+train: dataset_leaf/train/images
+val: dataset_leaf/val/images
+test: dataset_leaf/test/images
+
+nc: 9
+names:
+    [
+        "Early Blight",
+        "Healthy",
+        "Late Blight",
+        "Leaf Miner",
+        "Leaf Mold",
+        "Mosaic Virus",
+        "Septoria",
+        "Spider Mites",
+        "Yellow Leaf Curl Virus",
+    ]
+
+roboflow:
+    workspace: kampem
+    project: tomato-leaf-diseases-4xa5i-5cg52
+    version: 1
+    license: CC BY 4.0
+    url: https://universe.roboflow.com/kampem/tomato-leaf-diseases-4xa5i-5cg52/dataset/1

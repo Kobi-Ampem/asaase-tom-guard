@@ -1,0 +1,23 @@
+train: dataset_fruit/train/images
+val: dataset_fruit/val/images
+test: dataset_fruit/test/images
+
+nc: 8
+names:
+    [
+        "Anthracnose",
+        "Blossom_End_Rot",
+        "Catfaced",
+        "Fruit_Cracking",
+        "Healthy_Tomato",
+        "Late_Blight",
+        "Mold",
+        "Spotted_Wilt_Virus",
+    ]
+
+roboflow:
+    workspace: tomato-fruit-diseases
+    project: tomato-fruit-diseases-detection
+    version: 3
+    license: CC BY 4.0
+    url: https://universe.roboflow.com/tomato-fruit-diseases/tomato-fruit-diseases-detection/dataset/3
