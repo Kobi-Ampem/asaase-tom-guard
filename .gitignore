@@ -4,3 +4,5 @@ dataset_old_backup/
 *.zip
 venv/
 runs/
+logs/
+*.pyc
