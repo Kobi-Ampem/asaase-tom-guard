@@ -144,8 +144,18 @@ def test_patrol_resumes_when_the_obstacle_moves_away():
             if t > 3.0:
                 ard.obstacle_cm = None
     clock.devices.append(ClearAfter())
+
+    class LcdWatcher:
+        stale = False
+
+        def tick(self, t, dt):
+            # driving again while the LCD still says "waiting" would mislead the farmer
+            if ard.moving and ard.lcd[2].startswith("Obstacle"):
+                LcdWatcher.stale = True
+    clock.devices.append(LcdWatcher())
     result = Patrol(base, StubCamera(), inspector([AlertLevel.OK] * 4), PatrolConfig(stations=4)).run()
     assert result.end_reason == "done" and result.stations == 4 and result.obstacle_stops >= 1
+    assert not LcdWatcher.stale
 
 
 def test_a_failed_capture_is_logged_not_fatal():

@@ -78,6 +78,8 @@ class Patrol:
                 self.base.lcd(2, "Obstacle: waiting")
                 self.clock.sleep(self.cfg.obstacle_wait_s)
                 continue
+            if attempt:
+                self.base.lcd(2, "")  # the way is clear again
             if self._drive_segment():
                 return True
             result.obstacle_stops += 1
