@@ -1,21 +1,21 @@
 import json
 from pathlib import Path
-from datetime import datetime
+from datetime import datetime, timezone
 import cv2
-import os
 
 LOG_DIR = Path("data") / "logs"
-LOG_DIR.mkdir(parents=True, exist_ok=True)
 IMAGES_DIR = LOG_DIR / "images"
-IMAGES_DIR.mkdir(parents=True, exist_ok=True)
+
+def _stamp() -> str:
+    return datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
 
 def save_detection_log(detection_record: dict) -> Path:
     """
     detection_record should contain keys like:
-    { 'ts':..., 'image': 'filename.jpg', 'model': 'leaf'/'fruit', 'detections': [...] }
+    { 'ts':..., 'source_image': 'filename.jpg', 'alert': 'ok'/'watch'/'disease', 'detections': [...] }
     """
-    ts = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
-    fname = LOG_DIR / f"log_{ts}.json"
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    fname = LOG_DIR / f"log_{_stamp()}.json"
     with open(fname, "w") as f:
         json.dump(detection_record, f, indent=2)
     return fname
@@ -25,8 +25,9 @@ def save_annotated_image(image_bgr, detections, out_name=None):
     image_bgr: numpy BGR image
     detections: list of {class_name, conf, bbox}
     """
+    IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     if out_name is None:
-        out_name = datetime.utcnow().strftime("img_%Y%m%d_%H%M%S_%f.jpg")
+        out_name = f"img_{_stamp()}.jpg"
     out_path = IMAGES_DIR / out_name
     img = image_bgr.copy()
     for det in detections:
