@@ -137,3 +137,8 @@ CI runs the tests and compiles the firmware for the Uno on every push.
   photos without changing any alert. Suppressing overlapping boxes across the two models halved the
   wrong-model boxes but changed no alerts, so it was not adopted. Use `--models` when you know which one
   you are looking at; the real fix is a leaf-or-fruit decision before detection.
+
+## License
+
+The code is under the [MIT License](LICENSE). The models were trained on the two CC BY 4.0
+datasets credited under [Models](#models); reuse of the weights should keep that credit.
