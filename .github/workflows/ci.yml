@@ -19,3 +19,18 @@ jobs:
       # The fast tests need no PyTorch; tests/test_models.py skips itself without ultralytics.
       - run: pip install pytest numpy opencv-python-headless
       - run: pytest -q
+
+  firmware:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/compile-sketches@v1
+        with:
+          fqbn: arduino:avr:uno
+          sketch-paths: |
+            - firmware/tomguard_base
+          libraries: |
+            - name: Adafruit Motor Shield library
+            - name: DHT sensor library
+            - name: Adafruit Unified Sensor
+            - name: LiquidCrystal I2C
