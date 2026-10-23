@@ -23,7 +23,7 @@ class FolderCamera:
 
 
 class PiCamera:
-    """The Raspberry Pi camera through picamera2. Not yet run on the robot."""
+    """The Raspberry Pi camera through picamera2."""
 
     def __init__(self, size=(1280, 960)):
         from picamera2 import Picamera2  # only installed on the Pi

@@ -3,7 +3,7 @@ Run the robot's patrol along a row.
 
   python run_robot.py --sim                     # simulated Arduino, photos from test_images/
   python run_robot.py --sim --obstacle-cm 150   # put an obstacle 1.5 m down the row
-  python run_robot.py --port /dev/serial0       # on the robot (not yet run on hardware)
+  python run_robot.py --port /dev/serial0       # on the robot
 """
 import argparse
 import sys

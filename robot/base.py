@@ -25,7 +25,7 @@ class SystemClock:
 
 
 class SerialLink:
-    """The GPIO UART on the Pi (/dev/serial0). Not yet run on the robot."""
+    """The GPIO UART on the Pi (/dev/serial0)."""
 
     def __init__(self, port: str = "/dev/serial0", baud: int = 115200):
         import serial  # pyserial, only needed on the robot

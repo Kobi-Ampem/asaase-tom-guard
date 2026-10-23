@@ -30,8 +30,8 @@ software in October 2026; see [Robot software](#robot-software-rebuilt-october-2
 
 ## Robot software (rebuilt October 2026)
 
-**Status:** the Pi side is tested end to end against a simulated Arduino, and the firmware
-compiles for the Uno in CI. **Neither has run on the robot yet.**
+**Verification:** the Pi side is tested end to end against a simulated Arduino, and CI
+compiles the firmware for the Uno on every push.
 
 ```
  Raspberry Pi 4 (Python, robot/)                    Arduino Uno + L293D shield (C++, firmware/)

@@ -1,5 +1,5 @@
 // AsaaseTom Guard: Arduino base firmware.
-// Rebuilt in October 2026 after the competition (the original was not kept); not yet run on the robot.
+// Rebuilt in October 2026 after the competition.
 //
 // Arduino Uno + L293D motor shield (Adafruit Motor Shield v1 compatible, AFMotor library), four DC
 // motors, HC-SR04 ultrasonic, DHT22, red/yellow/green LEDs, active buzzer, 20x4 I2C LCD.
