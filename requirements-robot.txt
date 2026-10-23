@@ -1,0 +1,3 @@
+# Extra packages on the robot's Raspberry Pi, on top of requirements.txt.
+# picamera2 comes from Raspberry Pi OS: sudo apt install python3-picamera2
+pyserial

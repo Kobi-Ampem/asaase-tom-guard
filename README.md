@@ -23,10 +23,61 @@ camera image ──> leaf detector (9 classes) ──┐
 | 🟡 CHECK | a disease below the alert threshold (default 0.5) | yellow LED, disease name on the LCD |
 | 🔴 DISEASE | a disease at or above the alert threshold | red LED, buzzer, disease name on the LCD |
 
-On the robot, this pipeline ran on a Raspberry Pi with a camera, on a four-wheel-drive
-chassis, with an Arduino handling the sensors and the outputs, motor drivers included.
-That on-robot code is not in this repository: here the LEDs, buzzer, LCD and motors
-are simulated (`src/hardware_simulation.py`), so the whole pipeline runs on a laptop.
+At the competition this ran on a Raspberry Pi with a camera, on a four-wheel-drive chassis,
+with an Arduino handling the sensors and the outputs, motor drivers included. The robot
+stayed with the school and the original on-robot code was not kept, so I rebuilt the robot
+software in October 2026; see [Robot software](#robot-software-rebuilt-october-2026).
+
+## Robot software (rebuilt October 2026)
+
+**Status:** the Pi side is tested end to end against a simulated Arduino, and the firmware
+compiles for the Uno in CI. **Neither has run on the robot yet.**
+
+```
+ Raspberry Pi 4 (Python, robot/)                    Arduino Uno + L293D shield (C++, firmware/)
+ ───────────────────────────────                    ───────────────────────────────────────────
+ Pi camera ─> YOLO leaf/fruit ─> alert level        4 DC motors, HC-SR04, DHT22, LEDs,
+ patrol: drive ─> stop ─> settle ─> inspect   UART  active buzzer, 20x4 I2C LCD
+         obstacle: wait, retry, give up    ◀──────▶ runs commands, streams telemetry at 5 Hz
+ heartbeat ping while driving                       safety reflexes that need no Pi:
+                                                      · each drive stops by itself
+                                                      · no message for 1 s: stop
+                                                      · obstacle under 20 cm: stop
+```
+
+- **Protocol** (`robot/protocol.py`): one ASCII line per message with an NMEA-style XOR checksum,
+  so a corrupted line is dropped instead of executed. Every command is acknowledged; the Pi
+  retries lost ones, and every command is safe to repeat.
+- **Safety in the firmware, not the Pi**: if the Pi hangs mid-inference or a wire comes loose,
+  the Arduino stops the wheels by itself.
+- **Simulation** (`robot/sim_arduino.py`): a Python twin of the firmware with the same rules,
+  a robot position along the row and an optional obstacle. The tests drive the real Pi code
+  against it: lost commands, corrupted lines, the watchdog, the obstacle reflex, and a patrol
+  that waits for an obstacle, retries, and either resumes or ends the row.
+
+```bash
+python run_robot.py --sim                     # simulated Arduino, photos from test_images/
+python run_robot.py --sim --obstacle-cm 150   # obstacle 1.5 m down the row: the row ends "blocked"
+python run_robot.py --port /dev/serial0       # on the robot
+```
+
+### Wiring
+
+| Arduino Uno | Connected to |
+|---|---|
+| L293D shield, M1 to M4 | front-left, rear-left, rear-right, front-right motors |
+| D0 (RX) | Pi GPIO14 (TXD) |
+| D1 (TX) | Pi GPIO15 (RXD) **through a 1 kΩ / 2 kΩ divider**: the Uno sends 5 V, the Pi takes 3.3 V |
+| GND | Pi GND (common ground is required) |
+| A0 / A1 | HC-SR04 trigger / echo |
+| D2 | DHT22 data |
+| A2, A3, D13 | red, yellow, green LEDs (with resistors) |
+| D9 | active buzzer (not `tone()`: it uses Timer2, which drives motor PWM on D3 and D11) |
+| A4 / A5 | LCD I2C SDA / SCL, address 0x27 |
+
+On the Pi, enable the UART and disable the serial login console (`sudo raspi-config`, Interface
+Options, Serial Port), then `pip install -r requirements-robot.txt`. Unplug D0/D1 while uploading
+the sketch, since they share the USB serial port.
 
 ## Models
 
@@ -57,10 +108,10 @@ streamlit run app.py                 # dashboard over data/logs/
 
 ```bash
 pip install pytest
-pytest            # alert logic, simulated hardware and logging; plus the model tests when ultralytics is installed
+pytest            # protocol, robot link and patrol, alert logic, logging; model tests too when ultralytics is installed
 ```
 
-CI runs the fast tests on every push.
+CI runs the tests and compiles the firmware for the Uno on every push.
 
 ## Limitations
 
