@@ -9,6 +9,11 @@ AsaaseTom Guard watches over the tomatoes on a farm (*asaase* is the land). It d
 the rows, photographs leaves and fruit, detects disease with two YOLOv8 models and warns the
 farmer on the spot with LEDs, a buzzer and an LCD, while every inspection is logged to a dashboard.
 
+<img src="docs/build.gif" width="260" alt="Building the robot: a breadboard prototype with the ultrasonic sensor and LEDs, then the assembled four-wheel-drive chassis with its LCD on a classroom table"/>
+
+*Building it with the team: the sensor prototype on a breadboard, then the assembled
+four-wheel-drive chassis with its LCD.*
+
 ![The robot patrolling a row: camera view with detections, LCD, LEDs, buzzer, telemetry and a map of the row](docs/demo.gif)
 
 *A patrol rendered by `tools/render_demo.py`: the real models and Pi code, with the simulated
