@@ -1,17 +1,18 @@
 from ultralytics import YOLO
 import cv2
 import numpy as np
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 class Detector:
-    def __init__(self, model_path: str, class_names: List[str]=None, conf: float=0.25):
+    def __init__(self, model_path: str, class_names: Optional[List[str]] = None, conf: float = 0.25):
         """
         model_path: path to .pt model
-        class_names: optional list mapping class indices -> names
+        class_names: optional override for the class names; by default they come from
+                     the model itself, so they always match what it was trained on
         conf: confidence threshold
         """
         self.model = YOLO(model_path)
-        self.class_names = class_names
+        self.class_names = class_names or [self.model.names[i] for i in sorted(self.model.names)]
         self.conf = conf
 
     def predict_image(self, img: np.ndarray) -> List[Dict[str, Any]]:
@@ -20,26 +21,16 @@ class Detector:
         Returns list of detections: {class_id, class_name, conf, bbox [x1,y1,x2,y2]}
         """
         results = self.model.predict(source=img, imgsz=640, conf=self.conf, verbose=False)
-        # results is list-like, we use results[0]
         out = []
-        if len(results) == 0:
+        if len(results) == 0 or results[0].boxes is None:
             return out
-        r = results[0]
-        # r.boxes.xyxy, r.boxes.conf, r.boxes.cls
-        boxes = getattr(r.boxes, "xyxy", None)
-        confs = getattr(r.boxes, "conf", None)
-        cls = getattr(r.boxes, "cls", None)
-        if boxes is None:
-            return out
-        for i in range(len(boxes)):
-            xy = boxes[i].cpu().numpy().tolist()
-            c = int(cls[i].cpu().numpy().item())
-            cf = float(confs[i].cpu().numpy().item())
-            name = self.class_names[c] if self.class_names and c < len(self.class_names) else str(c)
+        boxes = results[0].boxes
+        for xy, c, cf in zip(boxes.xyxy.tolist(), boxes.cls.tolist(), boxes.conf.tolist()):
+            c = int(c)
             out.append({
                 "class_id": c,
-                "class_name": name,
-                "conf": cf,
+                "class_name": self.class_names[c] if c < len(self.class_names) else str(c),
+                "conf": float(cf),
                 "bbox": [float(x) for x in xy]
             })
         return out
