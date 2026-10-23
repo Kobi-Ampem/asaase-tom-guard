@@ -3,6 +3,12 @@ dataset_fruit/
 dataset_old_backup/
 *.zip
 venv/
+.venv/
 runs/
 logs/
+data/hw_state/
 *.pyc
+__pycache__/
+.pytest_cache/
+# base weights are downloaded by ultralytics on demand; only the trained models are kept
+yolov8n.pt

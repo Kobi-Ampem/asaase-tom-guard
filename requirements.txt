@@ -1,8 +1,7 @@
 ultralytics
 opencv-python
 numpy
+pandas
 pillow
 streamlit
-flask
-psutil
 pyyaml
