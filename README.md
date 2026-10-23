@@ -1,15 +1,13 @@
 # AsaaseTom Guard: tomato disease detection robot
 
-*Asaase* means earth or land, the farm; *Tom* is for tomatoes; *Guard* is what the robot does.
-
 **1st place, JHS category, RAIL Phase II Robotics Cohort II Challenge, KNUST, January 2026**
 ([KNUST news](https://www.knust.edu.gh/index.php/news/news-items/st-louis-shs-opoku-ware-ma-jhs-win-rail-phase-ii-robotics-challenge),
 [GES Kumasi Metro](https://web.facebook.com/GesKumasiMetro/posts/opoku-ware-ma-jhs-robotics-team-wins-with-smart-crop-disease-detection-systemthe/1474798337981988/)).
 Built in 2025 with the Opoku Ware M/A JHS robotics team, which I trained and mentored.
 
-A robot that drives along tomato rows, photographs leaves and fruit, detects disease
-with two YOLOv8 models and warns the farmer on the spot with LEDs, a buzzer and an LCD,
-while every inspection is logged to a dashboard.
+AsaaseTom Guard watches over the tomatoes on a farm (*asaase* is the land). It drives along
+the rows, photographs leaves and fruit, detects disease with two YOLOv8 models and warns the
+farmer on the spot with LEDs, a buzzer and an LCD, while every inspection is logged to a dashboard.
 
 ![The robot patrolling a row: camera view with detections, LCD, LEDs, buzzer, telemetry and a map of the row](docs/demo.gif)
 
