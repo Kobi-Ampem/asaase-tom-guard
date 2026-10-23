@@ -9,6 +9,14 @@ A robot that drives along tomato rows, photographs leaves and fruit, detects dis
 with two YOLOv8 models and warns the farmer on the spot with LEDs, a buzzer and an LCD,
 while every inspection is logged to a dashboard.
 
+![The robot patrolling a row: camera view with detections, LCD, LEDs, buzzer, telemetry and a map of the row](docs/demo.gif)
+
+*A patrol rendered by `tools/render_demo.py`: the real models and Pi code, with the simulated
+Arduino. The robot inspects eight plants, stops for an obstacle, waits, and resumes when it is
+taken away. The photos were chosen to show each alert level and two known failures: plant 5 is a
+false alarm (the leaf model reads "Early Blight" on a fruit) and plant 3 is a miss (visible mold,
+reported OK).*
+
 ## How it works
 
 ```
@@ -102,6 +110,7 @@ python main.py                       # both detectors on test_images/
 python main.py --models leaf         # leaf detector only
 python main.py --alert-threshold 0.6 # stricter alarm
 streamlit run app.py                 # dashboard over data/logs/
+python tools/render_demo.py          # render the patrol video: docs/demo.mp4 and docs/demo.gif
 ```
 
 ## Tests

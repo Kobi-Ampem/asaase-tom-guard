@@ -12,3 +12,4 @@ __pycache__/
 .pytest_cache/
 # base weights are downloaded by ultralytics on demand; only the trained models are kept
 yolov8n.pt
+docs/demo.mp4
